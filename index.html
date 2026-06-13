@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Convite Mais Criativo da Sua Vida!</title>
+    <title>POV: homens 2026 !</title>
     <style>
         * {
             margin: 0;
@@ -14,12 +14,14 @@
 
         body {
             background: linear-gradient(135deg, #fdf2f8, #fbcfe8);
-            height: 100vh;
+            min-height: 100vh; /* Permite que a página se adapte ao tamanho da tela */
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            overflow: hidden;
+            padding: 20px 0; /* Dá um respiro nas bordas superior e inferior no mobile */
+            overflow-x: hidden;
+            overflow-y: auto; /* Permite rolar a tela se o celular for pequeno */
             color: #1f2937;
         }
 
@@ -32,6 +34,7 @@
             width: 90%;
             overflow: hidden;
             position: relative;
+            margin: auto;
         }
 
         .page {
@@ -45,7 +48,7 @@
         }
 
         .page-content {
-            padding: 25px;
+            padding: 25px 25px 40px 25px; /* Aumentado o padding inferior para empurrar o texto final para cima */
         }
 
         .page-image-container {
@@ -111,6 +114,7 @@
             background-color: #6b7280;
             color: white;
             position: relative;
+            touch-action: none;
         }
 
         select {
@@ -191,10 +195,10 @@
             <div class="page-content">
                 <div class="emoji">👀</div>
                 <h2>Quer sair comigo?</h2>
-                <p>Eu sei que você está surpresa, mas olha só esse convite VIP... É uma oportunidade única na vida!</p>
+                <p>Sim, eu sei... pressão demais, mas olha só esse convite VIP... É uma oportunidade única na vida!</p>
                 <div class="btn-container">
                     <button id="btn-sim" onclick="proximaPagina(2)">SIM!</button>
-                    <button id="btn-nao" onmouseover="fuga()" onclick="fuga()">NÃO</button>
+                    <button id="btn-nao" onmouseover="fuga(event)" ontouchstart="fuga(event)" onclick="fuga(event)">NÃO</button>
                 </div>
             </div>
         </div>
@@ -207,7 +211,7 @@
             <div class="page-content">
                 <div class="emoji">📅</div>
                 <h2>Excelente escolha!</h2>
-                <p>Eu sabia que você não resistiria. Selecione um dos melhores horários da minha agenda concorrida:</p>
+                <p>Eu sabia que você não resistiria. Selecione um dos melhores horários da minha agenda que não estarei jogando bola:</p>
                 
                 <select id="data-hora"></select>
                 
@@ -255,7 +259,7 @@
                         <span class="summary-label">Cardápio:</span> <span id="resumo-comida"></span>
                     </div>
                 </div>
-                <p><strong>Tire um print dessa tela e me mande agora mesmo! KKKKK</strong></p>
+                <p style="margin-bottom: 0;"><strong>Tire um print dessa tela e me mande agora mesmo! KKKKK</strong></p>
             </div>
         </div>
     </div>
@@ -264,7 +268,6 @@
         let dataAgendada = "";
         let comidaSelecionada = "";
 
-        // Função que calcula a próxima quinta, sexta e sábado às 19h30
         function gerarOpcoesDeData() {
             const selectData = document.getElementById('data-hora');
             const diasDesejados = [
@@ -277,24 +280,19 @@
 
             diasDesejados.forEach(dia => {
                 let dataOpcao = new Date(hoje);
-                
-                // Calcula quantos dias faltam para o dia alvo
                 let diasDiferenca = (dia.idSemana - hoje.getDay() + 7) % 7;
                 
-                // Se o dia alvo for HOJE, mas já passou das 19h30, joga para a próxima semana
                 if (diasDiferenca === 0 && (hoje.getHours() > 19 || (hoje.getHours() === 19 && hoje.getMinutes() >= 30))) {
                     diasDiferenca = 7;
                 }
 
                 dataOpcao.setDate(hoje.getDate() + diasDiferenca);
 
-                // Formata o dia e mês com 2 dígitos
                 let diaFormatado = String(dataOpcao.getDate()).padStart(2, '0');
                 let mesFormatado = String(dataOpcao.getMonth() + 1).padStart(2, '0');
 
                 let textoFinal = `${dia.nome} (${diaFormatado}/${mesFormatado}) às 19h30`;
 
-                // Cria a opção no menu dinamicamente
                 let option = document.createElement('option');
                 option.value = textoFinal;
                 option.innerText = textoFinal;
@@ -302,7 +300,6 @@
             });
         }
 
-        // Executa a função para gerar as datas assim que o site abre
         gerarOpcoesDeData();
 
         function proximaPagina(numeroPagina) {
@@ -310,19 +307,24 @@
                 page.classList.remove('active');
             });
             document.getElementById('page' + numeroPagina).classList.add('active');
+            window.scrollTo(0, 0); // Garante que a nova página comece no topo no mobile
         }
 
-        function fuga() {
+        function fuga(event) {
+            if (event) {
+                event.preventDefault();
+            }
+            
             const btnNao = document.getElementById('btn-nao');
             const larguraJanela = window.innerWidth;
             const alturaJanela = window.innerHeight;
 
-            const novoX = Math.random() * (larguraJanela - btnNao.offsetWidth - 40);
-            const novoY = Math.random() * (alturaJanela - btnNao.offsetHeight - 40);
+            const novoX = Math.random() * (larguraJanela - btnNao.offsetWidth - 60);
+            const novoY = Math.random() * (alturaJanela - btnNao.offsetHeight - 60);
 
             btnNao.style.position = 'fixed';
-            btnNao.style.left = Math.max(10, novoX) + 'px';
-            btnNao.style.top = Math.max(10, novoY) + 'px';
+            btnNao.style.left = Math.max(20, novoX) + 'px';
+            btnNao.style.top = Math.max(20, novoY) + 'px';
         }
 
         function salvarData() {
