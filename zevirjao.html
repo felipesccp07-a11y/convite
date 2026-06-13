@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Convite Mais Criativo da Sua Vida!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fdf2f8, #fbcfe8);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            color: #1f2937;
+        }
+
+        .container {
+            background: white;
+            padding: 0;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(219, 39, 119, 0.2);
+            max-width: 380px;
+            width: 90%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .page-content {
+            padding: 25px;
+        }
+
+        .page-image-container {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #fbcfe8;
+        }
+
+        .page-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+        }
+
+        h2 {
+            color: #db2777;
+            margin-bottom: 15px;
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        p {
+            color: #4b5563;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(219, 39, 119, 0.1);
+        }
+
+        #btn-sim {
+            background-color: #db2777;
+            color: white;
+        }
+
+        #btn-sim:hover {
+            background-color: #be185d;
+            transform: scale(1.05);
+        }
+
+        #btn-nao {
+            background-color: #6b7280;
+            color: white;
+            position: relative;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 25px;
+            border: 2px solid #f9a8d4;
+            border-radius: 12px;
+            outline: none;
+            font-size: 16px;
+            background-color: white;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .btn-proximo {
+            background-color: #db2777;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-proximo:hover {
+            background-color: #be185d;
+        }
+
+        .emoji {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .final-summary {
+            background: #fdf2f8;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: left;
+            margin-bottom: 25px;
+            border: 1px solid #f9a8d4;
+        }
+
+        .summary-title {
+            color: #db2777;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .summary-label {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- PÁGINA 1: O CONVITE (image.png) -->
+        <div id="page1" class="page active">
+            <div class="page-image-container">
+                <img src="image.png" alt="A minha melhor foto" class="page-image">
+            </div>
+            <div class="page-content">
+                <div class="emoji">👀</div>
+                <h2>Quer sair comigo?</h2>
+                <p>Eu sei que você está surpresa, mas olha só esse convite VIP... É uma oportunidade única na vida!</p>
+                <div class="btn-container">
+                    <button id="btn-sim" onclick="proximaPagina(2)">SIM!</button>
+                    <button id="btn-nao" onmouseover="fuga()" onclick="fuga()">NÃO</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA 2: DATA E HORA PREDEFINIDAS (image_2.png) -->
+        <div id="page2" class="page">
+            <div class="page-image-container">
+                <img src="image_2.png" alt="O meu 'eu' espiritual" class="page-image">
+            </div>
+            <div class="page-content">
+                <div class="emoji">📅</div>
+                <h2>Excelente escolha!</h2>
+                <p>Eu sabia que você não resistiria. Selecione um dos melhores horários da minha agenda concorrida:</p>
+                
+                <select id="data-hora"></select>
+                
+                <button class="btn-proximo" onclick="salvarData()">Avançar ➡️</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 3: A COMIDA (image_3.png) -->
+        <div id="page3" class="page">
+            <div class="page-image-container">
+                <img src="image_3.png" alt="O Capitão Pátria tem fome" class="page-image">
+            </div>
+            <div class="page-content">
+                <div class="emoji">🍕</div>
+                <h2>O que vamos comer?</h2>
+                <p>O Capitão Pátria exige um banquete à altura. O que você, a consagrada, vai querer?</p>
+                <select id="comida">
+                    <option value="Pizza 🍕">Pizza (Clássico, não tem erro)</option>
+                    <option value="Hambúrguer 🍔">Hambúrguer (Ogrice funcional)</option>
+                    <option value="Japa 🍣">Japa (Chique, vou ter que parcelar)</option>
+                    <option value="Podrão da esquina 🌭">Podrão da esquina (Raiz e romântico)</option>
+                    <option value="Só um docinho/café ☕">Só um café/docinho (Eu sou fitness)</option>
+                </select>
+                <button class="btn-proximo" onclick="finalizar()">Confirmar tudo! 🚀</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 4: CONFIRMAÇÃO (image_4.png) -->
+        <div id="page4" class="page">
+            <div class="page-image-container">
+                <img src="image_4.png" alt="Tomando um café pós-contrato" class="page-image">
+            </div>
+            <div class="page-content">
+                <div class="emoji">🎉</div>
+                <h2>ENCONTRO CONFIRMADO!</h2>
+                <p>O contrato foi assinado digitalmente e não há direito a reembolso.</p>
+                <div class="final-summary">
+                    <span class="summary-title">Resumo do Contrato</span>
+                    <div class="summary-item">
+                        <span class="emoji">📅</span>
+                        <span class="summary-label">Data/Hora:</span> <span id="resumo-data"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="emoji">🍕</span>
+                        <span class="summary-label">Cardápio:</span> <span id="resumo-comida"></span>
+                    </div>
+                </div>
+                <p><strong>Tire um print dessa tela e me mande agora mesmo! KKKKK</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let dataAgendada = "";
+        let comidaSelecionada = "";
+
+        // Função que calcula a próxima quinta, sexta e sábado às 19h30
+        function gerarOpcoesDeData() {
+            const selectData = document.getElementById('data-hora');
+            const diasDesejados = [
+                { nome: 'Quinta-feira', idSemana: 4 },
+                { nome: 'Sexta-feira', idSemana: 5 },
+                { nome: 'Sábado', idSemana: 6 }
+            ];
+
+            const hoje = new Date();
+
+            diasDesejados.forEach(dia => {
+                let dataOpcao = new Date(hoje);
+                
+                // Calcula quantos dias faltam para o dia alvo
+                let diasDiferenca = (dia.idSemana - hoje.getDay() + 7) % 7;
+                
+                // Se o dia alvo for HOJE, mas já passou das 19h30, joga para a próxima semana
+                if (diasDiferenca === 0 && (hoje.getHours() > 19 || (hoje.getHours() === 19 && hoje.getMinutes() >= 30))) {
+                    diasDiferenca = 7;
+                }
+
+                dataOpcao.setDate(hoje.getDate() + diasDiferenca);
+
+                // Formata o dia e mês com 2 dígitos
+                let diaFormatado = String(dataOpcao.getDate()).padStart(2, '0');
+                let mesFormatado = String(dataOpcao.getMonth() + 1).padStart(2, '0');
+
+                let textoFinal = `${dia.nome} (${diaFormatado}/${mesFormatado}) às 19h30`;
+
+                // Cria a opção no menu dinamicamente
+                let option = document.createElement('option');
+                option.value = textoFinal;
+                option.innerText = textoFinal;
+                selectData.appendChild(option);
+            });
+        }
+
+        // Executa a função para gerar as datas assim que o site abre
+        gerarOpcoesDeData();
+
+        function proximaPagina(numeroPagina) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('page' + numeroPagina).classList.add('active');
+        }
+
+        function fuga() {
+            const btnNao = document.getElementById('btn-nao');
+            const larguraJanela = window.innerWidth;
+            const alturaJanela = window.innerHeight;
+
+            const novoX = Math.random() * (larguraJanela - btnNao.offsetWidth - 40);
+            const novoY = Math.random() * (alturaJanela - btnNao.offsetHeight - 40);
+
+            btnNao.style.position = 'fixed';
+            btnNao.style.left = Math.max(10, novoX) + 'px';
+            btnNao.style.top = Math.max(10, novoY) + 'px';
+        }
+
+        function salvarData() {
+            dataAgendada = document.getElementById('data-hora').value;
+            proximaPagina(3);
+        }
+
+        function finalizar() {
+            comidaSelecionada = document.getElementById('comida').value;
+            
+            document.getElementById('resumo-data').innerText = dataAgendada;
+            document.getElementById('resumo-comida').innerText = comidaSelecionada;
+            
+            proximaPagina(4);
+        }
+    </script>
+</body>
+</html>
